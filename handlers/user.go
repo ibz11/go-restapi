@@ -77,7 +77,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	w.Header().Set("Content-Type", "application/json")
     var params = mux.Vars(r)
     var user models.Users
-	db.Update()
+	//db.Update()
 	db.Delete(&user,params["id"])
 }
 
