@@ -1,2 +1,2 @@
 # go-restapi
-A rest API built with golang
+A rest API built with Golang + MUX + Postgres 
