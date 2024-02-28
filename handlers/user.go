@@ -39,6 +39,8 @@ func GetAUser(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	// 	http.Error(w, "No Id provided", http.StatusBadRequest)
 	// }
 
+
+
 	result := db.First(&user, params["id"])
 	if result.Error != nil {
 		// Check if the error is due to a record not found
@@ -55,9 +57,28 @@ func GetAUser(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 func DeleteUser(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	w.Header().Set("Content-Type", "application/json")
+   var params = mux.Vars(r)
+    var user models.Users
+	db.Delete(&user,params["id"])
+	result := db.First(&user, params["id"])
+	if result.Error != nil {
+		// Check if the error is due to a record not found
+		if result.Error == gorm.ErrRecordNotFound {
+			http.Error(w, "User not found", http.StatusNotFound)
+		} else {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	json.NewEncoder(w).Encode("The User has been deleted successfully.")
 }
 func UpdateUser(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	w.Header().Set("Content-Type", "application/json")
+    var params = mux.Vars(r)
+    var user models.Users
+	db.Update()
+	db.Delete(&user,params["id"])
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
